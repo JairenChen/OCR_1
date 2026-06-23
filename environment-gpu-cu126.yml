@@ -1,0 +1,15 @@
+name: ocr-ppocrv6
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip>=24.0
+  - ffmpeg
+  - pip:
+      - paddleocr==3.7.0
+      - opencv-python>=4.8.0
+      - PyYAML>=6.0.0
+      - pytest>=8.0.0
+variables:
+  PYTHONNOUSERSITE: "1"

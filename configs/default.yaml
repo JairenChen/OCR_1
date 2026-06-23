@@ -1,0 +1,106 @@
+input:
+  video_path: "E:/OCR/test_vedio/1.mp4"
+
+batch:
+  recursive: false
+  copy_srt_to_video_dir: true
+  video_extensions:
+    - .mp4
+    - .mov
+    - .mkv
+    - .avi
+    - .wmv
+    - .flv
+    - .webm
+    - .m4v
+
+sampling:
+  # fixed: only use interval_seconds.
+  # adaptive_boundary: coarse sample first, then refine segment boundaries.
+  strategy: adaptive_boundary
+  interval_seconds: 0.5
+  coarse_interval_seconds: 0.5
+  refine_window_seconds: 0.5
+  refine_interval_seconds: 0.2
+  refine_ocr_batch_size: 1
+  refine_max_extra_ocr_frames: 80
+  boundary_text_similarity_threshold: 0.85
+  decode_mode: seek
+  save_frame_images: false
+  keep_frame_images_in_memory: true
+  max_frames: null
+  image_ext: png
+
+ocr:
+  engine: paddleocr
+  device: gpu:0
+  batch_size: 8
+  text_detection_model_name: PP-OCRv6_medium_det
+  text_recognition_model_name: PP-OCRv6_medium_rec
+  use_doc_orientation_classify: false
+  use_doc_unwarping: false
+  use_textline_orientation: false
+  text_score_threshold: 0.0
+  # Runtime PaddleOCR predict parameters. Larger side length and lower detection
+  # thresholds can improve recall for blurry/small text, at the cost of speed/noise.
+  text_det_limit_side_len: 960
+  text_det_limit_type: max
+  text_det_thresh: 0.25
+  text_det_box_thresh: 0.6
+  text_det_unclip_ratio: 2.0
+  text_rec_score_thresh: 0.3
+  return_word_box: false
+
+ocr_cache:
+  enabled: false
+  image_diff_threshold: 0.5
+  max_pixel_diff_threshold: 12.0
+  image_size: 96
+
+filter:
+  min_confidence: 0.65
+  noise:
+    enabled: true
+    min_text_length: 1
+    drop_symbol_only: true
+    drop_repeated_punctuation: true
+    drop_numeric_only: false
+  text_region:
+    enabled: false
+    x_min: 0.0
+    y_min: 0.0
+    x_max: 1.0
+    y_max: 1.0
+
+layout:
+  sort_lines: true
+  row_tolerance: 0.6
+
+debug:
+  enabled: false
+  output_dir_name: debug
+  draw_rejected: true
+  line_thickness: 2
+
+merge:
+  strategy: line_state_machine
+  similarity_threshold: 0.92
+  max_gap_seconds: 1.5
+  use_position: true
+  position_match_threshold: 0.5
+  line_text_similarity_threshold: 0.85
+  line_iou_threshold: 0.3
+  line_center_distance_threshold: 0.08
+
+output:
+  frames_dir: data/frames
+  output_dir: data/outputs
+  formats:
+    - json
+    - txt
+    - srt
+  report:
+    enabled: true
+    formats:
+      - json
+      - txt

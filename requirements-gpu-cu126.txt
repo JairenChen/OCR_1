@@ -1,0 +1,11 @@
+# CUDA 12.6 GPU environment notes:
+# Install PyTorch and PaddlePaddle GPU wheels with the explicit commands in
+# docs/environment_setup.md before installing this file.
+#
+# This file intentionally keeps only project-level packages because PyTorch and
+# PaddlePaddle use different official wheel indexes.
+
+paddleocr==3.7.0
+opencv-python>=4.8.0
+PyYAML>=6.0.0
+pytest>=8.0.0

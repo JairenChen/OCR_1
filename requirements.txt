@@ -1,0 +1,5 @@
+# Project-level dependencies. Install GPU frameworks first; see docs/environment_setup.md.
+paddleocr==3.7.0
+opencv-python>=4.8.0
+PyYAML>=6.0.0
+pytest>=8.0.0
